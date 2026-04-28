@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop offset="0%" stop-color="#6EE7B7" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#g1)" />
+  <g fill="rgba(255,255,255,0.15)">
+    <rect x="60" y="60" width="480" height="220" rx="16" />
+    <rect x="60" y="320" width="980" height="48" rx="8" />
+    <rect x="60" y="390" width="720" height="16" rx="6" />
+    <rect x="60" y="430" width="360" height="16" rx="6" />
+  </g>
+  <text x="80" y="160" font-family="Inter, sans-serif" font-size="42" fill="white" font-weight="700">Job Recruitment System</text>
+  <text x="80" y="210" font-family="Inter, sans-serif" font-size="20" fill="rgba(255,255,255,0.9)">Full-stack hiring platform demo</text>
+</svg>

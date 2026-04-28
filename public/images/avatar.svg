@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <rect width="100%" height="100%" rx="24" fill="#0b1020" />
+  <g transform="translate(24,24)">
+    <circle cx="72" cy="56" r="40" fill="#111827" stroke="#3b82f6" stroke-width="3" />
+    <rect x="12" y="116" width="120" height="60" rx="12" fill="#0f172a" stroke="#a855f7" stroke-width="3" />
+    <text x="16" y="156" fill="#c7d2fe" font-family="Inter, sans-serif" font-size="14">Rana Raj</text>
+  </g>
+</svg>
