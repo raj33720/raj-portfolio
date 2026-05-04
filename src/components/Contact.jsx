@@ -5,20 +5,47 @@ import { profile } from '../data/portfolio';
 
 const Contact = () => {
     const [status, setStatus] = useState('idle');
-    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+    const [errorMessage, setErrorMessage] = useState('');
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        mobile: '',
+        purpose: '',
+        description: ''
+    });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setStatus('sending');
+        setErrorMessage('');
 
-        const subject = encodeURIComponent(`Portfolio enquiry from ${formData.name}`);
-        const body = encodeURIComponent(
-            `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-        );
+        try {
+            const response = await fetch('/api/enquiry', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
 
-        window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
-        setStatus('success');
-        setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => setStatus('idle'), 5000);
+            if (!response.ok) {
+                const payload = await response.json().catch(() => ({}));
+                throw new Error(payload.message || 'Unable to send enquiry right now.');
+            }
+
+            setStatus('success');
+            setFormData({
+                fullName: '',
+                email: '',
+                mobile: '',
+                purpose: '',
+                description: ''
+            });
+            setTimeout(() => setStatus('idle'), 5000);
+        } catch (error) {
+            setStatus('error');
+            setErrorMessage(error.message || 'Unable to send enquiry right now.');
+        }
     };
 
     const handleChange = (e) => {
@@ -102,7 +129,7 @@ const Contact = () => {
                                         <CheckCircle size={40} />
                                     </div>
                                     <h3 className="text-3xl font-bold text-white mb-4 font-grotesk">Draft Ready!</h3>
-                                    <p className="text-slate-400">Your email draft has been prepared for {profile.email}.</p>
+                                    <p className="text-slate-400">Your enquiry has been emailed successfully to {profile.email}.</p>
                                 </motion.div>
                             ) : (
                                 <form key="form" className="relative z-10 space-y-8" onSubmit={handleSubmit}>
@@ -111,10 +138,10 @@ const Contact = () => {
                                             <input
                                                 required
                                                 type="text"
-                                                name="name"
-                                                value={formData.name}
+                                                name="fullName"
+                                                value={formData.fullName}
                                                 onChange={handleChange}
-                                                placeholder="Name"
+                                                placeholder="Full Name"
                                                 className="w-full bg-transparent border-b border-white/10 px-0 py-4 outline-none focus:border-primary transition-all text-white font-medium placeholder-slate-400"
                                             />
                                             <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-focus-within:w-full transition-all duration-500"></div>
@@ -131,13 +158,37 @@ const Contact = () => {
                                             />
                                             <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-focus-within:w-full transition-all duration-500"></div>
                                         </div>
+                                        <div className="relative group">
+                                            <input
+                                                required
+                                                type="tel"
+                                                name="mobile"
+                                                value={formData.mobile}
+                                                onChange={handleChange}
+                                                placeholder="Mobile Number"
+                                                className="w-full bg-transparent border-b border-white/10 px-0 py-4 outline-none focus:border-primary transition-all text-white font-medium placeholder-slate-400"
+                                            />
+                                            <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-focus-within:w-full transition-all duration-500"></div>
+                                        </div>
+                                        <div className="relative group">
+                                            <input
+                                                required
+                                                type="text"
+                                                name="purpose"
+                                                value={formData.purpose}
+                                                onChange={handleChange}
+                                                placeholder="Purpose (e.g. Internship / Project / Hiring)"
+                                                className="w-full bg-transparent border-b border-white/10 px-0 py-4 outline-none focus:border-primary transition-all text-white font-medium placeholder-slate-400"
+                                            />
+                                            <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-focus-within:w-full transition-all duration-500"></div>
+                                        </div>
                                         <div className="relative group pt-4">
                                             <textarea
                                                 required
-                                                name="message"
-                                                value={formData.message}
+                                                name="description"
+                                                value={formData.description}
                                                 onChange={handleChange}
-                                                placeholder="Tell me about your project or opportunity"
+                                                placeholder="Description"
                                                 rows="4"
                                                 className="w-full bg-transparent border-b border-white/10 px-0 py-4 outline-none focus:border-primary transition-all text-white font-medium resize-none placeholder-slate-400"
                                             ></textarea>
@@ -145,11 +196,16 @@ const Contact = () => {
                                         </div>
                                     </div>
 
+                                    {status === 'error' && (
+                                        <p className="text-rose-400 text-sm">{errorMessage}</p>
+                                    )}
+
                                     <button
                                         type="submit"
                                         className="w-full py-5 bg-gradient-to-r from-primary to-secondary text-white font-black uppercase tracking-[0.2em] text-[10px] rounded-xl hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all flex items-center justify-center gap-4 group"
+                                        disabled={status === 'sending'}
                                     >
-                                        <>Open Email Draft <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" /></>
+                                        <>{status === 'sending' ? 'Sending Enquiry...' : 'Send Enquiry'} <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" /></>
                                     </button>
 
                                 </form>
