@@ -11,6 +11,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
+// const API = import.meta.env.VITE_API_URL;
 const PORT = Number(process.env.SERVER_PORT || 5000);
 
 app.use(cors());

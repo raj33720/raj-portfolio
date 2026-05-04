@@ -3,6 +3,7 @@ import { Mail, Github as GithubIcon, Phone, MapPin, ArrowRight, MessageSquare, C
 import { useState } from 'react';
 import { profile } from '../data/portfolio';
 
+
 const Contact = () => {
     const [status, setStatus] = useState('idle');
     const [errorMessage, setErrorMessage] = useState('');
@@ -20,7 +21,8 @@ const Contact = () => {
         setErrorMessage('');
 
         try {
-            const response = await fetch('/api/enquiry', {
+            const API = import.meta.env.VITE_API_URL;
+                const response = await fetch(`${API}/api/enquiry`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
