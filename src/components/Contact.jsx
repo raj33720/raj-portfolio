@@ -15,40 +15,63 @@ const Contact = () => {
         description: ''
     });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setStatus('sending');
-        setErrorMessage('');
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setStatus('sending');
+  setErrorMessage('');
 
-        try {
-            const API = import.meta.env.VITE_API_URL;
-                const response = await fetch(`${API}/api/enquiry`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
+  try {
+    // ✅ Get API URL from env
+    const API = import.meta.env.VITE_API_URL;
 
-            if (!response.ok) {
-                const payload = await response.json().catch(() => ({}));
-                throw new Error(payload.message || 'Unable to send enquiry right now.');
-            }
+    if (!API) {
+      throw new Error("API URL not configured (VITE_API_URL missing)");
+    }
 
-            setStatus('success');
-            setFormData({
-                fullName: '',
-                email: '',
-                mobile: '',
-                purpose: '',
-                description: ''
-            });
-            setTimeout(() => setStatus('idle'), 5000);
-        } catch (error) {
-            setStatus('error');
-            setErrorMessage(error.message || 'Unable to send enquiry right now.');
-        }
-    };
+    console.log("Using API:", API); // debug (remove later)
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
+    const response = await fetch(`${API}/api/enquiry`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeout);
+
+    // ✅ Handle backend errors properly
+    if (!response.ok) {
+      const payload = await response.json().catch(() => ({}));
+      throw new Error(payload.message || 'Unable to send enquiry right now.');
+    }
+
+    // ✅ Success
+    setStatus('success');
+    setFormData({
+      fullName: '',
+      email: '',
+      mobile: '',
+      purpose: '',
+      description: ''
+    });
+
+    setTimeout(() => setStatus('idle'), 5000);
+
+  } catch (error) {
+    setStatus('error');
+
+    // ✅ Better error messages
+    if (error.name === 'AbortError') {
+      setErrorMessage("Server is taking too long (Render may be sleeping)");
+    } else {
+      setErrorMessage(error.message || 'Something went wrong');
+    }
+  }
+};
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
