@@ -30,7 +30,7 @@ const handleSubmit = async (e) => {
 
     console.log("Using API:", API); // debug (remove later)
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
+    const timeout = setTimeout(() => controller.abort(), 60000);
 
     const response = await fetch(`${API}/api/enquiry`, {
       method: 'POST',
