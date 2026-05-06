@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 dotenv.config();
 
@@ -14,15 +14,20 @@ const allowedOrigins = [
   "https://raj-portfolio-pi-two.vercel.app"
 ];
 
-app.use(cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type"],
-}));
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
-app.options(/.*/, cors({
-  origin: allowedOrigins
-}));
+app.options(
+  /.*/,
+  cors({
+    origin: allowedOrigins,
+  })
+);
 
 /* ---------------- MIDDLEWARE ---------------- */
 app.use(express.json());
@@ -33,49 +38,19 @@ app.use((req, res, next) => {
   next();
 });
 
-/* ---------------- PORT ---------------- */
-// const PORT = process.env.PORT || 5000;
-
 /* ---------------- ENV CHECK ---------------- */
-const requiredEnv = [
-  "SMTP_HOST",
-  "SMTP_PORT",
-  "SMTP_USER",
-  "SMTP_PASS",
-  "ENQUIRY_TO_EMAIL"
-];
-
+const requiredEnv = ["RESEND_API_KEY", "ENQUIRY_TO_EMAIL"];
 const missingEnv = requiredEnv.filter((key) => !process.env[key]);
+
 if (missingEnv.length > 0) {
   console.warn(`Missing env vars: ${missingEnv.join(", ")}`);
 }
 
 const mailConfigured = missingEnv.length === 0;
 
-/* ---------------- SMTP ---------------- */
-const transporter = mailConfigured
-  ? nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: String(process.env.SMTP_SECURE) === "true",
-      family: 4,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-      connectionTimeout: 10000,
-      socketTimeout: 10000,
-    })
-  : null;
-
-/* Verify SMTP */
-if (transporter) {
-  transporter.verify()
-    .then(() => console.log("✅ SMTP connection verified"))
-    .catch((err) => {
-      console.error("❌ SMTP verification failed:", err.message);
-    });
-}
+/* ---------------- RESEND ---------------- */
+const resend = mailConfigured ? new Resend(process.env.RESEND_API_KEY) : null;
+const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
 /* ---------------- ROUTES ---------------- */
 
@@ -84,6 +59,7 @@ app.get("/api/health", (req, res) => {
   res.json({
     ok: true,
     mailConfigured,
+    mailProvider: "resend",
   });
 });
 
@@ -100,13 +76,13 @@ app.post("/api/enquiry", async (req, res) => {
     return res.status(400).json({ message: "Invalid email" });
   }
 
-  if (!transporter) {
-    return res.status(500).json({ message: "SMTP not configured" });
+  if (!resend) {
+    return res.status(500).json({ message: "Resend not configured" });
   }
 
   try {
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
+    const { error } = await resend.emails.send({
+      from: fromEmail,
       to: process.env.ENQUIRY_TO_EMAIL,
       replyTo: email,
       subject: `New Enquiry - ${fullName}`,
@@ -120,10 +96,13 @@ app.post("/api/enquiry", async (req, res) => {
       `,
     });
 
-    return res.status(200).json({ message: "Email sent successfully" });
+    if (error) {
+      throw new Error(error.message || "Resend email sending failed");
+    }
 
+    return res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
-    console.error("SMTP ERROR:", {
+    console.error("RESEND ERROR:", {
       message: error.message,
       stack: error.stack,
     });
@@ -134,5 +113,5 @@ app.post("/api/enquiry", async (req, res) => {
 
 /* ---------------- START SERVER ---------------- */
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
