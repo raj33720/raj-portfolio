@@ -13,8 +13,8 @@ const Skills = () => {
     return (
         <section id="skills" className="py-24 relative bg-slate-900/20">
             <div className="container mx-auto px-6 md:px-12 lg:px-20 text-center lg:text-left">
-                <div className="mb-20 flex flex-col lg:flex-row justify-between items-end gap-10">
-                    <div className="max-w-2xl">
+                <div className="mb-20 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
+                    <div className="max-w-2xl text-left">
                         <motion.p
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -44,7 +44,7 @@ const Skills = () => {
                             <Cpu size={18} className="animate-pulse" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Core Focus</p>
+                            {/* <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Core Focus</p> */}
                             <p className="text-xs text-white font-medium">Responsive UI • REST APIs • MVC Architecture</p>
                         </div>
                     </motion.div>

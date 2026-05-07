@@ -12,8 +12,8 @@ const Projects = memo(() => {
     return (
         <section id="projects" className="py-24 relative overflow-hidden">
             <div className="container mx-auto px-6 md:px-12 lg:px-20">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-8">
-                    <div>
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 gap-8">
+                    <div className="text-left">
                         <motion.p
                             initial={{ opacity: 0, x: -50, filter: 'blur(10px)' }}
                             whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
@@ -38,9 +38,9 @@ const Projects = memo(() => {
                         whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                         viewport={{ once: true, margin: '-100px' }}
                         transition={{ duration: 1, type: 'spring', bounce: 0.3, delay: 0.2 }}
-                        className="max-w-lg text-slate-400 text-base md:text-right font-inter font-light"
+                        className="max-w-lg text-slate-400 text-base text-left md:text-right font-inter font-light"
                     >
-                        All projects are shown in one responsive grid with clean cards, direct GitHub access, and quick tech-stack highlights.
+                        {/* These are some of the projects I've worked on, showcasing my skills in web development and design. Each project highlights my ability to create responsive, user-friendly interfaces and solve complex problems with innovative solutions. */}
                     </motion.div>
                 </div>
 

@@ -76,12 +76,12 @@ const Hero = memo(() => {
     };
 
     return (
-        <section id="home" ref={heroRef} className="min-h-screen flex items-center relative overflow-hidden pt-32 pb-16 md:py-20 perspective-1000">
+        <section id="home" ref={heroRef} className="min-h-screen flex items-center relative overflow-hidden pt-40 md:pt-44 lg:pt-48 pb-16 md:pb-20 perspective-1000">
             <motion.div
                 style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
                 className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10 w-full transform-gpu origin-top"
             >
-                <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-12 items-center">
+                <div className="grid lg:grid-cols-[0.95fr_1.05fr] xl:grid-cols-[0.9fr_1.1fr] gap-14 lg:gap-12 items-center">
                     <motion.div
                         variants={container}
                         initial="hidden"
@@ -175,48 +175,39 @@ const Hero = memo(() => {
                         transition={{ duration: 1.15, type: 'spring', bounce: 0.22, delay: 0.35 }}
                         className="relative w-full mt-8 lg:mt-0"
                     >
-                        <div className="hero-shell glass rounded-[2rem] p-6 md:p-8 relative overflow-hidden border border-white/8 shadow-[0_0_45px_rgba(15,23,42,0.45)] max-w-[42rem] ml-auto">
+                        <div className="hero-shell glass rounded-[2rem] p-7 md:p-10 lg:p-11 relative overflow-hidden border border-white/8 shadow-[0_0_45px_rgba(15,23,42,0.45)] max-w-[47rem] ml-auto">
                             <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/[0.04] via-transparent to-purple-500/[0.06]"></div>
                             <div className="relative z-10">
-                                <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-5 mb-7">
                                     <div className="relative shrink-0">
                                         <img
                                             src={profile.avatarUrl}
                                             alt={profile.fullName}
-                                            className="w-[4.5rem] h-[4.5rem] md:w-20 md:h-20 rounded-2xl object-cover border border-white/10 shadow-[0_0_30px_rgba(34,211,238,0.12)]"
+                                            className="w-24 h-24 md:w-28 md:h-28 rounded-3xl object-cover border border-white/10 shadow-[0_0_30px_rgba(34,211,238,0.12)]"
                                         />
-                                        <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-400 border-2 border-[#020617]"></span>
+                                        <span className="absolute -bottom-1.5 -right-1.5 w-6 h-6 rounded-full bg-emerald-400 border-2 border-[#020617]"></span>
                                     </div>
                                     <div className="min-w-0">
-                                        <p className="text-white font-grotesk text-2xl md:text-[2rem] font-bold tracking-tight">{profile.fullName}</p>
-                                        <p className="text-slate-400 text-sm leading-relaxed mt-1">{profile.availability}</p>
-                                        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-3 mt-3 text-[11px] text-slate-300">
+                                        <p className="text-white font-grotesk text-3xl md:text-[2.35rem] font-bold tracking-tight">{profile.fullName}</p>
+                                        <p className="text-slate-400 text-base leading-relaxed mt-1.5">{profile.availability}</p>
+                                        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-3 mt-3.5 text-sm text-slate-300">
                                             <span className="inline-flex items-center gap-1.5">
-                                                <MapPin size={13} className="text-cyan-400" />
+                                                <MapPin size={14} className="text-cyan-400" />
                                                 {profile.location}
                                             </span>
-                                            <span className="inline-flex items-center gap-1.5">
-                                                <Mail size={13} className="text-cyan-400" />
+                                            <span className="inline-flex items-center gap-1.5 break-all sm:break-normal">
+                                                <Mail size={14} className="text-cyan-400" />
                                                 {profile.email}
                                             </span>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* <div className="grid grid-cols-2 gap-3 mb-6">
-                                    {heroStats.map((stat) => (
-                                        <div key={stat.label} className="hero-stat-card rounded-2xl border border-white/8 bg-white/[0.04] p-4 min-h-[108px] flex flex-col justify-between">
-                                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-2">{stat.label}</p>
-                                            <p className="text-lg md:text-[1.6rem] font-black text-white font-grotesk leading-tight break-words">{stat.value}</p>
-                                        </div>
-                                    ))}
-                                </div> */}
-
-                                <div className="hero-code-block rounded-[1.5rem] border border-white/8 bg-[#020617]/80 p-5 font-mono text-xs leading-6 text-slate-300 overflow-hidden mb-6">
+                                <div className="hero-code-block rounded-[1.5rem] border border-white/8 bg-[#020617]/80 p-6 md:p-7 font-mono text-[13px] md:text-sm leading-7 md:leading-8 text-slate-300 overflow-hidden mb-7">
                                     <div className="flex items-center gap-2 mb-4">
-                                        <span className="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
-                                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                                        <span className="w-3 h-3 rounded-full bg-rose-400"></span>
+                                        <span className="w-3 h-3 rounded-full bg-amber-400"></span>
+                                        <span className="w-3 h-3 rounded-full bg-emerald-400"></span>
                                     </div>
                                     <p><span className="text-cyan-400">const</span> <span className="text-white">developer</span> = {'{'}</p>
                                     <p className="pl-4"><span className="text-purple-400">name</span>: <span className="text-emerald-300">"{profile.fullName}"</span>,</p>
@@ -227,19 +218,28 @@ const Hero = memo(() => {
                                     <p>{'}'}</p>
                                 </div>
 
+                                <div className="grid grid-cols-2 gap-3 mb-6">
+                                    {heroStats.slice(0, 2).map((stat) => (
+                                        <div key={stat.label} className="hero-stat-card rounded-2xl border border-white/8 bg-white/[0.04] p-4 min-h-[92px] flex flex-col justify-between">
+                                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{stat.label}</p>
+                                            <p className="text-xl md:text-2xl font-black text-white font-grotesk leading-tight">{stat.value}</p>
+                                        </div>
+                                    ))}
+                                </div>
+
                                 <div className="grid sm:grid-cols-2 gap-3">
                                     <a
                                         href={profile.github}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="inline-flex justify-center items-center gap-2 px-4 py-3 rounded-2xl border border-white/10 bg-white/5 text-slate-200 text-xs font-bold uppercase tracking-[0.15em] hover:border-primary/40 hover:text-white transition-all"
+                                        className="inline-flex justify-center items-center gap-2 px-5 py-3.5 rounded-2xl border border-white/10 bg-white/5 text-slate-200 text-xs font-bold uppercase tracking-[0.15em] hover:border-primary/40 hover:text-white transition-all"
                                     >
                                         <Github size={14} />
                                         GitHub Profile
                                     </a>
                                     <a
                                         href="#contact"
-                                        className="inline-flex justify-center items-center gap-2 px-4 py-3 rounded-2xl border border-cyan-400/20 bg-cyan-400/8 text-cyan-100 text-xs font-bold uppercase tracking-[0.15em] hover:bg-cyan-400/12 transition-all"
+                                        className="inline-flex justify-center items-center gap-2 px-5 py-3.5 rounded-2xl border border-cyan-400/20 bg-cyan-400/8 text-cyan-100 text-xs font-bold uppercase tracking-[0.15em] hover:bg-cyan-400/12 transition-all"
                                     >
                                         <Mail size={14} />
                                         Contact Me

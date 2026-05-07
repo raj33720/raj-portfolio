@@ -83,7 +83,6 @@ export const skillGroups = [
     items: ["Node.js", "Express.js", "MongoDB", "SQL", "REST APIs"],
     description: "Application logic, API design, and database workflows for full-stack delivery.",
     icon: "database",
-    primary: true,
   },
   {
     category: "Developer Tools",
@@ -257,5 +256,4 @@ export const educationItems = [
 export const credentialItems = [
   experienceItems[5],
 ];
-
 
