@@ -25,7 +25,7 @@ export const profile = {
 
 export const heroStats = [
   { label: 'Public Repos', value: '8+' },
-  { label: 'Featured Projects', value: '4' },
+  { label: 'Featured Projects', value: '5' },
   { label: 'Internships', value: '2' },
   { label: 'Focus', value: 'Web + Data' }
 ];
@@ -189,6 +189,24 @@ export const projectItems = [
       "Can be extended with interview scheduling, admin analytics, and real-time applicant notifications.",
   },
   {
+    title: "Student Attendance Management System",
+    category: "Full Stack Attendance Platform",
+    problem:
+      "Colleges need an efficient, role-based system to record and monitor student attendance across courses, years, semesters, and branches.",
+    role: "Full Stack Developer",
+    solution:
+      "Built a MERN full-stack attendance management system with role-based dashboards (Student, Teacher, Admin), CSV bulk student upload, JWT authentication, real-time percentage calculations, and visual analytics.",
+    challenge:
+      "Designing flexible attendance flows across Course -> Year -> Semester -> Subject with CSV validation, duplicate detection, and fast percentage calculations.",
+    tech: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "MUI", "JWT", "bcryptjs", "Chart.js"],
+    link: "https://github.com/raj33720/Student-attendance-managent-system",
+    demo: "https://student-attendance-managent-system.vercel.app/",
+    image: "/images/student-attendance.svg",
+    highlights: ["Role-based dashboards", "CSV bulk upload", "Real-time statistics", "Multi-semester & branch support"],
+    future:
+      "Add attendance export (CSV/PDF), refresh tokens, email alerts for low attendance, and mobile app support.",
+  },
+  {
     title: "Pharmacy",
     category: "Responsive Medicine Platform",
     problem:
@@ -200,6 +218,7 @@ export const projectItems = [
       "Designing intuitive UI flows that keep product exploration simple, organized, and user friendly for a healthcare context.",
     tech: ["React.js", "Tailwind CSS", "HTML", "MongoDB"],
     link: "https://github.com/raj33720/Pharmacy",
+    demo: "https://pharmacy-tau.vercel.app/",
     image: "/images/pharmacy.svg",
     highlights: ["Responsive UI", "Product Catalog", "Accessible Design"],
     future:
@@ -239,6 +258,7 @@ export const projectItems = [
     future:
       "Could be expanded into a web dashboard with downloadable reports, filters, and visual trend comparisons.",
   }
+  
 ];
 
 // Split experience content into clear groups used by the UI
@@ -256,4 +276,3 @@ export const educationItems = [
 export const credentialItems = [
   experienceItems[5],
 ];
-
